@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import TodoList from './components/TodoList';
+
+const defaultTodos = [
+  { id: 1, title: 'Learn React', completed: false },
+  { id: 2, title: 'Learn Firebase', completed: false },
+  { id: 3, title: 'Learn GraphQL', completed: false }
+]
 
 function App() {
+
+  const [todos, setTodos] = useState(defaultTodos);
+
+  function toggleTodo(id) {
+    const updatedTodos = todos.map(todo => {
+      if (todo.id === id) {
+        return {
+          ...todo,
+          completed: !todo.completed
+        }
+      }
+      return todo;
+    });
+    console.log("done");
+    setTodos(updatedTodos);
+
+
+
+
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>TODO APP</h1>
+      <TodoList todos={todos} toggleTodo={toggleTodo}/>
+      {/* <TodoForm /> */}
+
     </div>
   );
 }
