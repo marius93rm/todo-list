@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import TodoList from './components/TodoList';
+import TodoForm from './components/TodoForm';
 
 const defaultTodos = [
   { id: 1, title: 'Learn React', completed: false },
@@ -24,17 +25,39 @@ function App() {
     });
     console.log("done");
     setTodos(updatedTodos);
+  }
 
+  function addTodo(titolo) {
+    let maxId=0;
+    todos.forEach(todo => {
+      if (todo.id > maxId){
+        maxId = todo.id;
+      }
+    });
 
+    const todo = {
+      id: maxId + 1,
+      title: titolo,
+      completed: false
+    }
+    setTodos([...todos, todo]);
+  }
 
+  function removeTodo(id) {
+    const updatedTodos = todos.filter(todo => todo.id !== id);
+    setTodos(updatedTodos);
+  }
 
+  function clearTodos() {
+    const updatedTodos = todos.filter(todo => !todo.completed);
+    setTodos(updatedTodos);
   }
 
   return (
     <div>
       <h1>TODO APP</h1>
-      <TodoList todos={todos} toggleTodo={toggleTodo}/>
-      {/* <TodoForm /> */}
+      <TodoList todos={todos} toggleTodo={toggleTodo} removeTodo={removeTodo} />
+      <TodoForm addTodo={addTodo} clearTodos={clearTodos} />
 
     </div>
   );
